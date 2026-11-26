@@ -1,8 +1,8 @@
 """Parcel collection service."""
 
-from tenant import Tenant
 from desk import ParcelDesk
-from errors import ParcelNotFoundError, ParcelAssignmentError
+from errors import ParcelAssignmentError, ParcelNotFoundError
+from tenant import Tenant
 
 
 class ParcelPickup:

@@ -1,12 +1,11 @@
 """Parcel model and parcel collection."""
 
-from dataclasses import dataclass, field
-from datetime import datetime, date
 import secrets
 import string
+from dataclasses import dataclass, field
+from datetime import date, datetime
 
 from errors import InvalidParcelError, ParcelNotFoundError
-
 
 DATE_FORMAT = "%d/%m/%Y"
 
@@ -95,6 +94,7 @@ class ParcelManager:
             raise TypeError("parcel must be a Parcel instance")
         if any(p.pid == parcel.pid for p in self._parcels):
             from errors import DuplicateParcelError
+
             raise DuplicateParcelError(f"Parcel {parcel.pid} already exists.")
         self._parcels.append(parcel)
         return parcel

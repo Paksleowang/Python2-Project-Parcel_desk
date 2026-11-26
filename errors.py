@@ -1,73 +1,57 @@
+"""Custom exceptions used by the parcel management system."""
+
 
 class ParcelSystemError(Exception):
-    """Base exception for the parcel management system."""
-    pass
-
-
-
-# Parcel errors
+    """Base exception for expected application errors."""
 
 
 class ParcelError(ParcelSystemError):
     """Base exception for parcel-related errors."""
-    pass
 
 
-class InvalidParcelError(ParcelError):
-    """Raised when parcel information is invalid."""
-    pass
+class InvalidParcelError(ParcelError, ValueError):
+    """Raised when parcel data is invalid."""
 
 
-class ParcelNotFoundError(ParcelError):
+class ParcelNotFoundError(ParcelError, LookupError):
     """Raised when a parcel cannot be found."""
-    pass
 
 
 class DuplicateParcelError(ParcelError):
-    """Raised when a parcel is already registered."""
-    pass
-
-
-
-# Tenant errors
+    """Raised when a parcel already exists or is assigned."""
 
 
 class TenantError(ParcelSystemError):
     """Base exception for tenant-related errors."""
-    pass
 
 
-class InvalidTenantError(TenantError):
-    """Raised when tenant information is invalid."""
-    pass
+class InvalidTenantError(TenantError, ValueError):
+    """Raised when tenant data is invalid."""
 
 
-class TenantNotFoundError(TenantError):
+class TenantNotFoundError(TenantError, LookupError):
     """Raised when a tenant cannot be found."""
-    pass
 
 
 class DuplicateTenantError(TenantError):
     """Raised when a tenant is already registered."""
-    pass
-
-
-
-# Parcel desk errors
 
 
 class ParcelDeskError(ParcelSystemError):
-    """Base exception for parcel desk-related errors."""
-    pass
+    """Base exception for parcel-desk errors."""
 
 
 class ParcelAssignmentError(ParcelDeskError):
-    """Raised when a parcel cannot be assigned to a tenant."""
-    pass
- 
-# Storage errors
+    """Raised when an assignment is invalid."""
 
 
 class ParcelStorageError(ParcelSystemError):
-    """Raised when saving or loading parcel data fails."""
-    pass
+    """Raised when persistence fails."""
+
+
+class PaymentError(ParcelSystemError):
+    """Base exception for payment errors."""
+
+
+class InvalidPaymentError(PaymentError, ValueError):
+    """Raised when a payment is invalid."""

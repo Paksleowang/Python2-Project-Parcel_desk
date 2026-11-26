@@ -1,9 +1,10 @@
 """Payment tracking for overdue parcel fees."""
 
 from datetime import date
-from tenant import Tenant
-from overdue import Overdue
+
 from errors import InvalidPaymentError
+from overdue import Overdue
+from tenant import Tenant
 
 
 class Payment:

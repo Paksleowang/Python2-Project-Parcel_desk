@@ -1,35 +1,55 @@
-"""This class is to store and record the parcels recieved."""
-from parcel import Parcel
+"""Parcel desk assignment service."""
 
-
+from errors import DuplicateParcelError, ParcelAssignmentError
 from parcel import Parcel
+from tenant import Tenant
 
 
 class ParcelDesk:
-    def __init__(self, building: str):
-        self.building = building
+    """Tracks parcels currently waiting for collection."""
+
+    def __init__(self, building: str = "Parcel Desk") -> None:
+        if not isinstance(building, str) or not building.strip():
+            raise ValueError("Building name must not be blank.")
+        self.building = building.strip()
         self.desk: list[dict] = []
 
-    def assign_parcel(self, parcel: Parcel, tenant_name: str, room: int) -> None:
-        """Assign a parcel to a tenant and store the information."""
+    def is_assigned(self, pid: str) -> bool:
+        return any(record["parcel"]["pid"] == pid for record in self.desk)
 
-        assigned_parcel = {
-            "name": tenant_name,
-            "room": room,
-            "parcel": parcel
+    def assign_parcel(self, parcel: Parcel | dict, tenant: Tenant) -> dict:
+        if isinstance(parcel, Parcel):
+            parcel_data = parcel.to_dict()
+        elif isinstance(parcel, dict):
+            parcel_data = dict(parcel)
+        else:
+            raise ParcelAssignmentError("Parcel must be a Parcel or parcel dictionary.")
+        if not isinstance(tenant, Tenant):
+            raise ParcelAssignmentError("A valid tenant is required.")
+        if parcel_data.get("receiver", "").strip().casefold() != tenant.normalized_name:
+            raise ParcelAssignmentError("Parcel receiver does not match this tenant.")
+        pid = parcel_data.get("pid")
+        if not pid:
+            raise ParcelAssignmentError("Parcel has no parcel ID.")
+        if self.is_assigned(pid):
+            raise DuplicateParcelError(f"Parcel {pid} is already at the desk.")
+
+        record = {
+            "name": tenant.name,
+            "room": tenant.room,
+            "parcel": parcel_data,
         }
+        self.desk.append(record)
+        return record
 
-        self.desk.append(assigned_parcel)
+    def remove_assignment(self, pid: str) -> dict:
+        for index, record in enumerate(self.desk):
+            if record["parcel"]["pid"] == pid:
+                return self.desk.pop(index)
+        raise ParcelAssignmentError(f"Parcel {pid} is not waiting at the desk.")
 
-    def show_parcels(self) -> None:
-        """Display all parcels assigned to tenants."""
+    def __iter__(self):
+        return iter(self.desk)
 
-        for record in self.desk:
-            parcel = record["parcel"]
-
-            print(f"Tenant: {record['name']}")
-            print(f"Room: {record['room']}")
-            print(f"Parcel ID: {parcel.pid}")
-            print(f"Date: {parcel.date}")
-            print(f"Items: {parcel.items}")
-            print()
+    def __len__(self) -> int:
+        return len(self.desk)

@@ -33,8 +33,7 @@ class Database:
     def save_json(self, path: Path, data) -> None:
         try:
             with NamedTemporaryFile(
-                "w", encoding="utf-8", dir=self.directory,
-                delete=False, suffix=".tmp"
+                "w", encoding="utf-8", dir=self.directory, delete=False, suffix=".tmp"
             ) as temporary:
                 json.dump(data, temporary, indent=4, ensure_ascii=False)
                 temporary.flush()
@@ -103,13 +102,15 @@ class Database:
                     raise ValueError("Payments CSV has an invalid header.")
                 result = []
                 for row in reader:
-                    result.append({
-                        "pid": row["pid"],
-                        "tenant": row["tenant"],
-                        "room": int(row["room"]),
-                        "amount": int(row["amount"]),
-                        "date": row["date"],
-                    })
+                    result.append(
+                        {
+                            "pid": row["pid"],
+                            "tenant": row["tenant"],
+                            "room": int(row["room"]),
+                            "amount": int(row["amount"]),
+                            "date": row["date"],
+                        }
+                    )
                 return result
         except (OSError, csv.Error, ValueError, KeyError) as error:
             raise ParcelStorageError(f"Could not load payments: {error}") from error
