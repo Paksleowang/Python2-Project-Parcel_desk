@@ -23,8 +23,16 @@ class Parcel():
         _pid = self.pID()
         self.items.append((_pid,item))
         return None
+    
+    def print_pID(self):
+            for pid,item in self.items:
+                print(f"'{pid}' for {item}")
 
-
+if __name__=="__main__":
+    sonam = Parcel("21/09/2026","Sonam")
+    sonam.add_item("box-1")
+    sonam.add_item("box-2")
+    print(sonam.print_pID())
 
         
                 
