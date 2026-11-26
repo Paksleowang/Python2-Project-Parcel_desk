@@ -2,7 +2,10 @@
 from dataclasses import dataclass, field
 import secrets
 import string
+import json
+from pathlib import Path
 
+PATH = Path(__file__).parent/"parcel.json"
 
 @dataclass
 class Parcel:
@@ -30,17 +33,10 @@ class Parcel:
         """Add an item to an existing parcel or create a new parcel."""
 
         for parcel in self.parcels:
-
-            # Check whether receiver and date are the same
             if parcel["receiver"] == receiver and parcel["date"] == date:
-
-                # Add item to the existing parcel
                 parcel["items"].append(item)
-
                 print("Item added to existing parcel")
                 return
-
-        # If no matching parcel exists, create a new one
         pid = self.pID()
 
         new_parcel = {
@@ -49,10 +45,14 @@ class Parcel:
             "date": date,
             "items": [item]
         }
-
         self.parcels.append(new_parcel)
-
         print("New parcel created")
+    
+    def save(self) -> None:
+        """Save the parcel list to a JSON file."""
+        with open(PATH, "w",encoding="utf-8") as file:
+            json.dump(self.parcels, file, indent=4) 
+        return None  
 
     def show_pID(self) -> None:
         """Display parcel IDs and their items."""
@@ -73,5 +73,6 @@ if __name__ == "__main__":
     sonam.add_item("21/08/2026", "Sonam", "box-2")
     sonam.add_item("22/08/2026", "Sonam", "box-3")
     sonam.add_item("21/08/2026", "Pema", "box-4")
+    sonam.save()
 
     sonam.show_pID()
