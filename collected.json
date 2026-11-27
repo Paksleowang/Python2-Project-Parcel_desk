@@ -1,1 +1,51 @@
-[]
+[
+    {
+        "tenant": "paks",
+        "room": 203,
+        "parcel": {
+            "pid": "16NKKOHR",
+            "receiver": "Paks",
+            "date": "21/09/2026",
+            "items": [
+                "Yellow box"
+            ]
+        }
+    },
+    {
+        "tenant": "tenzin",
+        "room": 207,
+        "parcel": {
+            "pid": "4RS9Q4YD",
+            "receiver": "tenzin",
+            "date": "22/09/2026",
+            "items": [
+                "brown box",
+                "purple box"
+            ]
+        }
+    },
+    {
+        "tenant": "karma",
+        "room": 206,
+        "parcel": {
+            "pid": "1YZDPNUA",
+            "receiver": "karma",
+            "date": "22/09/2026",
+            "items": [
+                "shopee"
+            ]
+        }
+    },
+    {
+        "tenant": "Ken",
+        "room": 110,
+        "parcel": {
+            "pid": "OH7UAEK0",
+            "receiver": "ken",
+            "date": "21/08/2026",
+            "items": [
+                "brown box"
+            ]
+        }
+    }
+]

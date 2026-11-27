@@ -34,6 +34,7 @@ class Parcel:
     items: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
+        """Validate parcel data after initialization."""
         if not isinstance(self.pid, str) or len(self.pid) != 8:
             raise InvalidParcelError("Parcel ID must contain 8 characters.")
         if not isinstance(self.receiver, str) or not self.receiver.strip():

@@ -1,1 +1,22 @@
-[]
+[
+    {
+        "name": "sonam",
+        "room": 204
+    },
+    {
+        "name": "paks",
+        "room": 203
+    },
+    {
+        "name": "karma",
+        "room": 206
+    },
+    {
+        "name": "tenzin",
+        "room": 207
+    },
+    {
+        "name": "Ken",
+        "room": 110
+    }
+]
